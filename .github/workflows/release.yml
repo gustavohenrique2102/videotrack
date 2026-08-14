@@ -1,0 +1,101 @@
+name: Publish release to Moodle.org
+
+on:
+  release:
+    types:
+      - published
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing Git tag to publish (for example, v1.3.0)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: moodle-org-release
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  publish:
+    name: Register release on Moodle.org
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    environment: moodle-org
+
+    steps:
+      - name: Resolve and validate release tag
+        id: release
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          tag="${INPUT_TAG:-${RELEASE_TAG:-}}"
+          if [[ -z "$tag" ]]; then
+            echo "No release tag was provided." >&2
+            exit 1
+          fi
+          if [[ ! "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]; then
+            echo "Unsupported release tag: $tag" >&2
+            exit 1
+          fi
+
+          zip_url="https://api.github.com/repos/${REPOSITORY}/zipball/${tag}"
+          curl --fail --silent --show-error --location --head "$zip_url" >/dev/null
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "zip_url=$zip_url" >> "$GITHUB_OUTPUT"
+
+      - name: Register version through the Moodle.org API
+        id: moodle
+        env:
+          ENDPOINT: https://moodle.org/webservice/rest/server.php
+          FUNCTION: local_plugins_add_version
+          MOODLE_ORG_TOKEN: ${{ secrets.MOODLE_ORG_TOKEN }}
+          PLUGIN: mod_videotrack
+          REPOSITORY_URL: ${{ github.server_url }}/${{ github.repository }}
+          TAG: ${{ steps.release.outputs.tag }}
+          ZIP_URL: ${{ steps.release.outputs.zip_url }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$MOODLE_ORG_TOKEN" ]]; then
+            echo "The MOODLE_ORG_TOKEN secret is not configured." >&2
+            exit 1
+          fi
+
+          response="$(curl --fail-with-body --silent --show-error "$ENDPOINT" \
+            --data-urlencode "wstoken=$MOODLE_ORG_TOKEN" \
+            --data-urlencode "wsfunction=$FUNCTION" \
+            --data-urlencode "moodlewsrestformat=json" \
+            --data-urlencode "frankenstyle=$PLUGIN" \
+            --data-urlencode "zipurl=$ZIP_URL" \
+            --data-urlencode "vcssystem=git" \
+            --data-urlencode "vcsrepositoryurl=$REPOSITORY_URL" \
+            --data-urlencode "vcstag=$TAG" \
+            --data-urlencode "changelogurl=$REPOSITORY_URL/releases/tag/$TAG" \
+            --data-urlencode "altdownloadurl=$ZIP_URL")"
+
+          jq --exit-status . <<< "$response" >/dev/null
+          if jq --exit-status 'type == "object" and (has("exception") or has("errorcode"))' <<< "$response" >/dev/null; then
+            jq . <<< "$response" >&2
+            exit 1
+          fi
+
+          {
+            echo "response<<MOODLE_RESPONSE"
+            echo "$response"
+            echo "MOODLE_RESPONSE"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Show Moodle.org response
+        env:
+          RESPONSE: ${{ steps.moodle.outputs.response }}
+        run: jq . <<< "$RESPONSE"
+
