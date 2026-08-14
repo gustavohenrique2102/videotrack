@@ -16,6 +16,9 @@
 
 namespace mod_videotrack;
 
+// PHPCS in Moodle 4.5 does not yet recognise PHPUnit's CoversClass attribute.
+// phpcs:disable moodle.PHPUnit.TestCaseCovers.Missing
+
 /**
  * Tests for the VideoTrack activity form.
  *
@@ -59,3 +62,5 @@ final class mod_form_test extends \advanced_testcase {
         ));
     }
 }
+
+// phpcs:enable moodle.PHPUnit.TestCaseCovers.Missing

@@ -18,6 +18,9 @@ namespace mod_videotrack;
 
 use mod_videotrack\local\progress_manager;
 
+// PHPCS in Moodle 4.5 does not yet recognise PHPUnit's CoversClass attribute.
+// phpcs:disable moodle.PHPUnit.TestCaseCovers.Missing
+
 /**
  * Unit tests for watched interval calculations.
  *
@@ -95,3 +98,5 @@ final class progress_manager_test extends \advanced_testcase {
         $this->assertSame(3, (int)$jumped->highesttime);
     }
 }
+
+// phpcs:enable moodle.PHPUnit.TestCaseCovers.Missing
