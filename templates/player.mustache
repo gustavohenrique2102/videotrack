@@ -1,0 +1,127 @@
+{{!
+    @template mod_videotrack/player
+
+    VideoTrack player and progress panel.
+}}
+<div class="videotrack-theater"
+     data-videotrack-theater="{{cmid}}"
+     data-completed-text="{{completedtext}}"
+     {{#accentstyle}}style="{{accentstyle}}"{{/accentstyle}}>
+    <div class="videotrack-theater-header">
+        <div>
+            {{#backtocourseurl}}
+            <a href="{{backtocourseurl}}" class="videotrack-btn-back">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i> {{backtocoursetext}}
+            </a>
+            {{/backtocourseurl}}
+        </div>
+
+        <div class="videotrack-header-badges">
+            {{#focusmode}}
+            <span class="vt-badge-pill vt-badge-focus" title="{{#str}}focusmode_help, mod_videotrack{{/str}}">
+                <i class="fa fa-eye" aria-hidden="true"></i> {{#str}}focusmodebadge, mod_videotrack{{/str}}
+            </span>
+            {{/focusmode}}
+
+            {{#preventforward}}
+            <span class="vt-badge-pill {{#iscompleted}}vt-badge-unlocked{{/iscompleted}}{{^iscompleted}}vt-badge-locked{{/iscompleted}}"
+                  data-vt-role="lock-badge">
+                <i class="fa {{#iscompleted}}fa-unlock{{/iscompleted}}{{^iscompleted}}fa-lock{{/iscompleted}}" aria-hidden="true"></i>
+                <span data-vt-role="lock-text">{{#iscompleted}}{{#str}}completed, mod_videotrack{{/str}}{{/iscompleted}}{{^iscompleted}}{{#str}}preventforward, mod_videotrack{{/str}}{{/iscompleted}}</span>
+            </span>
+            {{/preventforward}}
+        </div>
+    </div>
+
+    {{#showresumebutton}}
+    <div class="vt-resume-wrapper">
+        <button class="vt-btn-resume btn btn-primary" type="button" data-vt-role="resume-progress">
+            <i class="fa fa-play" aria-hidden="true"></i> {{resumebtntext}}
+        </button>
+    </div>
+    {{/showresumebutton}}
+
+    {{#sourcewarning}}
+    <div class="alert alert-warning" role="status">{{sourcewarning}}</div>
+    {{/sourcewarning}}
+    {{^hassource}}
+    <div class="alert alert-danger" role="alert">{{sourceerror}}</div>
+    {{/hassource}}
+
+    {{#hassource}}
+    <div class="videotrack-screen-wrapper">
+        <div class="vt-focus-overlay" data-vt-role="focus-overlay" aria-live="polite">
+            <div class="vt-focus-icon">
+                <i class="fa fa-pause" aria-hidden="true"></i>
+            </div>
+            <div class="vt-focus-title">{{focuspausedtitle}}</div>
+            <div class="vt-focus-msg">{{focuspausedmsg}}</div>
+            <button class="vt-btn-resume-focus btn btn-primary" type="button" data-vt-role="resume-focus">
+                <i class="fa fa-play" aria-hidden="true"></i> {{#str}}resumeplayback, mod_videotrack{{/str}}
+            </button>
+        </div>
+
+        {{#isyoutube}}
+            <div id="youtube-player-{{cmid}}" data-vt-role="youtube-player" data-videoid="{{ytid}}"></div>
+            <noscript>
+                <p><a href="{{videourl}}" target="_blank" rel="noopener noreferrer">{{#str}}openvideo, mod_videotrack{{/str}}</a></p>
+            </noscript>
+        {{/isyoutube}}
+
+        {{^isyoutube}}
+            <video id="videotrack-player-{{cmid}}" data-vt-role="html5-player" controls preload="metadata">
+                <source src="{{videourl}}"{{#videomimetype}} type="{{videomimetype}}"{{/videomimetype}}>
+                {{#hascaptions}}
+                <track kind="captions" src="{{captionurl}}" srclang="{{captionlang}}" label="{{captionlabel}}" default>
+                {{/hascaptions}}
+                {{#str}}error_novideosupport, mod_videotrack{{/str}}
+            </video>
+        {{/isyoutube}}
+        <div class="alert alert-danger d-none m-3" role="alert" data-vt-role="source-error">
+            {{#str}}error_sourceplayback, mod_videotrack{{/str}}
+        </div>
+    </div>
+    {{/hassource}}
+
+    <div class="videotrack-dashboard">
+        <div class="vt-dash-top">
+            <div>
+                <div class="vt-dash-label">{{progresstitle}}</div>
+                <div class="vt-dash-hint">{{{progresshint}}}</div>
+            </div>
+            <div class="vt-dash-percent" data-vt-role="progress-text">{{currentpercent}}%</div>
+        </div>
+
+        <div class="vt-progress-track">
+            <div class="vt-progress-fill"
+                 data-vt-role="progress-bar"
+                 role="progressbar"
+                 style="width: {{currentpercent}}%;"
+                 aria-valuenow="{{currentpercent}}"
+                 aria-valuemin="0"
+                 aria-valuemax="100"></div>
+            {{^isfree}}
+            <div class="vt-target-marker"
+                 style="left: {{targetpercent}}%;"
+                 title="{{targetmarker}}"></div>
+            {{/isfree}}
+        </div>
+
+        {{#preventforward}}
+        <div class="vt-status-card vt-status-locked {{#iscompleted}}d-none{{/iscompleted}}" data-vt-role="seek-locked-msg">
+            <i class="fa fa-lock" aria-hidden="true"></i>
+            <span>{{seeklockedmsg}}</span>
+        </div>
+        {{/preventforward}}
+
+        <div class="vt-status-card vt-status-success {{^iscompleted}}d-none{{/iscompleted}}" data-vt-role="success-msg">
+            <i class="fa fa-check-circle" aria-hidden="true"></i>
+            <div>
+                <strong>{{successmsg}}</strong>
+                {{#preventforward}}
+                <div class="small mt-1">{{seekunlockedmsg}}</div>
+                {{/preventforward}}
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,6 @@
+/.phpunit.cache/
+/node_modules/
+/vendor/
+/.env
+*.zip
+*.log

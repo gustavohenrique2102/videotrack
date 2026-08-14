@@ -1,0 +1,513 @@
+/* VideoTrack UI. Colours intentionally inherit the active Moodle/Bootstrap theme. */
+.videotrack-theater,
+.videotrack-coursecard,
+.videotrack-player-modal {
+    --vt-primary: var(--vt-accent, var(--bs-primary, var(--primary, currentColor)));
+    --vt-body-bg: var(--bs-body-bg, #fff);
+    --vt-body-color: var(--bs-body-color, #212529);
+    --vt-border: var(--bs-border-color, #dee2e6);
+    --vt-muted: var(--bs-secondary-color, #6c757d);
+    --vt-surface: var(--bs-tertiary-bg, var(--light, #f8f9fa));
+    --vt-success: var(--bs-success, var(--success, #198754));
+    --vt-warning: var(--bs-warning, var(--warning, #ffc107));
+}
+
+.videotrack-theater {
+    max-width: 1060px;
+    margin: 1.25rem auto 2.5rem;
+    background: var(--vt-body-bg);
+    color: var(--vt-body-color);
+    border: 1px solid var(--vt-border);
+    border-radius: 1rem;
+    box-shadow: 0 .5rem 1.25rem rgba(0, 0, 0, .12);
+    overflow: hidden;
+    font-family: inherit;
+    position: relative;
+}
+
+.videotrack-theater-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .85rem 1.25rem;
+    background: var(--vt-surface);
+    border-bottom: 1px solid var(--vt-border);
+    flex-wrap: wrap;
+    gap: .75rem;
+}
+
+.videotrack-btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .45rem .9rem;
+    color: var(--vt-body-color);
+    background: var(--vt-body-bg);
+    border: 1px solid var(--vt-border);
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: .875rem;
+    font-weight: 600;
+}
+
+.videotrack-btn-back:hover,
+.videotrack-btn-back:focus {
+    color: var(--vt-primary);
+    border-color: var(--vt-primary);
+    text-decoration: none;
+}
+
+.videotrack-header-badges {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    flex-wrap: wrap;
+}
+
+.vt-badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .3rem .7rem;
+    border-radius: 999px;
+    font-size: .76rem;
+    font-weight: 600;
+    color: var(--vt-body-color);
+    background: var(--vt-body-bg);
+    border: 1px solid var(--vt-border);
+}
+
+.vt-badge-focus {
+    color: var(--vt-primary);
+    border-color: var(--vt-primary);
+}
+
+.vt-badge-locked {
+    color: var(--vt-body-color);
+    border-color: var(--vt-warning);
+}
+
+.vt-badge-unlocked {
+    color: var(--vt-success);
+    border-color: var(--vt-success);
+}
+
+.vt-resume-wrapper {
+    padding: .75rem 1.25rem 0;
+}
+
+.vt-btn-resume,
+.vt-btn-resume-focus {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    color: #fff;
+    background-color: var(--vt-primary);
+    border-color: var(--vt-primary);
+}
+
+.videotrack-screen-wrapper {
+    position: relative;
+    width: 100%;
+    background: #000;
+    aspect-ratio: 16 / 9;
+    max-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.videotrack-screen-wrapper iframe,
+.videotrack-screen-wrapper video,
+.videotrack-screen-wrapper [data-vt-role="youtube-player"] {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    border: 0;
+}
+
+.vt-focus-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, .88);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1.5rem;
+    color: #fff;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease;
+}
+
+.vt-focus-overlay.vt-active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.vt-focus-icon {
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #fff;
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+.vt-focus-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: .4rem;
+}
+
+.vt-focus-msg {
+    max-width: 450px;
+    font-size: .9rem;
+    color: rgba(255, 255, 255, .82);
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+}
+
+.videotrack-dashboard {
+    padding: 1.25rem 1.5rem 1.5rem;
+    background: var(--vt-body-bg);
+    border-top: 1px solid var(--vt-border);
+}
+
+.vt-dash-top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: .75rem;
+}
+
+.vt-dash-label {
+    font-size: .8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--vt-muted);
+    margin-bottom: .15rem;
+}
+
+.vt-dash-hint {
+    font-size: .88rem;
+    color: var(--vt-body-color);
+    margin: 0;
+}
+
+.vt-dash-percent {
+    font-size: 1.6rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: var(--vt-primary);
+}
+
+.vt-progress-track {
+    position: relative;
+    width: 100%;
+    height: 12px;
+    background: var(--vt-surface);
+    border: 1px solid var(--vt-border);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.vt-progress-track-compact {
+    height: 8px;
+}
+
+.vt-progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width .25s ease;
+    position: relative;
+    background: var(--vt-primary);
+}
+
+.vt-target-marker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--vt-warning);
+    z-index: 5;
+    transform: translateX(-50%);
+}
+
+.vt-status-card {
+    margin-top: 1rem;
+    padding: .85rem 1.15rem;
+    border-radius: .65rem;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    font-size: .88rem;
+    border: 1px solid var(--vt-border);
+    background: var(--vt-surface);
+}
+
+.vt-status-success {
+    color: var(--vt-success);
+    border-color: var(--vt-success);
+}
+
+.vt-status-locked {
+    color: var(--vt-body-color);
+    border-color: var(--vt-warning);
+}
+
+.videotrack-coursecard {
+    max-width: 860px;
+    margin: .75rem 0 1.25rem;
+    background: var(--vt-body-bg);
+    color: var(--vt-body-color);
+    border: 1px solid var(--vt-border);
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .08);
+    transition: box-shadow .2s ease, border-color .2s ease;
+}
+
+.videotrack-coursecard:hover {
+    border-color: var(--vt-primary);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .12);
+}
+
+.videotrack-card-launch {
+    display: block;
+    width: 100%;
+    padding: 0;
+    text-align: left;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    position: relative;
+}
+
+.videotrack-card-launch:focus-visible {
+    outline: 3px solid var(--vt-primary);
+    outline-offset: -3px;
+}
+
+.videotrack-card-media {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #000;
+}
+
+.videotrack-card-media::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background: linear-gradient(180deg, transparent 45%, rgba(0, 0, 0, .45) 100%);
+}
+
+.videotrack-card-media-placeholder {
+    background: var(--vt-surface);
+}
+
+.videotrack-card-play {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    width: 4.25rem;
+    height: 4.25rem;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background: var(--vt-primary);
+    border: 2px solid rgba(255, 255, 255, .75);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 .35rem 1rem rgba(0, 0, 0, .35);
+    transition: transform .2s ease, opacity .2s ease;
+}
+
+.videotrack-card-launch:hover .videotrack-card-play,
+.videotrack-card-launch:focus .videotrack-card-play {
+    transform: translate(-50%, -50%) scale(1.08);
+    opacity: .92;
+}
+
+.videotrack-focus-badge {
+    position: absolute;
+    z-index: 2;
+    top: 1rem;
+    right: 1rem;
+    padding: .35rem .75rem;
+    color: #fff;
+    font-size: .8rem;
+    font-weight: 700;
+    background: rgba(0, 0, 0, .72);
+    border: 1px solid rgba(255, 255, 255, .65);
+    border-radius: 999px;
+}
+
+.videotrack-card-action {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .85rem 1.25rem;
+    font-weight: 700;
+    font-size: .95rem;
+    background: var(--vt-surface);
+    border-top: 1px solid var(--vt-border);
+    color: var(--vt-primary);
+}
+
+.videotrack-card-progress-wrap {
+    padding: 1rem 1.25rem 1.25rem;
+    background: var(--vt-body-bg);
+}
+
+.videotrack-player-modal .modal-content {
+    background: var(--vt-body-bg);
+    color: var(--vt-body-color);
+    border: 1px solid var(--vt-border);
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, .25);
+}
+
+.videotrack-player-modal .modal-header {
+    background: var(--vt-surface);
+    color: var(--vt-body-color);
+    border-bottom: 1px solid var(--vt-border);
+    padding: .85rem 1.25rem;
+}
+
+.videotrack-player-modal .modal-body {
+    padding: 0;
+    overflow: hidden;
+    background: #000;
+}
+
+.videotrack-player-modal .modal-dialog {
+    width: 94vw;
+    max-width: 1080px;
+    margin: 1.5rem auto;
+}
+
+.videotrack-modal-framewrap {
+    width: 100%;
+    height: 84vh;
+    max-height: 760px;
+    background: #000;
+    overflow: hidden;
+}
+
+.videotrack-modal-frame {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.videotrack-focus-modal .modal-dialog {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    margin: 0;
+}
+
+.videotrack-focus-modal .modal-content {
+    height: 100vh;
+    border-radius: 0;
+}
+
+.videotrack-focus-modal .modal-body,
+.videotrack-focus-modal .videotrack-modal-framewrap {
+    height: calc(100vh - 3.5rem);
+}
+
+/* Scope embedded overrides to VideoTrack only. Never target pagelayout-embedded globally. */
+body.videotrack-embedded {
+    background: var(--bs-body-bg, #fff);
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+body.videotrack-embedded .activity-header,
+body.videotrack-embedded .activity-information,
+body.videotrack-embedded #page-header {
+    display: none;
+}
+
+body.videotrack-embedded #region-main {
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: 0;
+}
+
+body.videotrack-embedded .videotrack-theater {
+    max-width: 100%;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+    border: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+body.videotrack-embedded .videotrack-theater-header {
+    display: none;
+}
+
+body.videotrack-embedded .videotrack-screen-wrapper {
+    flex: 1 1 auto;
+    max-height: calc(100vh - 120px);
+}
+
+body.videotrack-embedded .videotrack-dashboard {
+    flex: 0 0 auto;
+    padding: 1rem 1.5rem;
+}
+
+@media (max-width: 576px) {
+    .videotrack-theater,
+    .videotrack-coursecard {
+        border-radius: .75rem;
+    }
+
+    .vt-dash-top {
+        align-items: flex-start;
+    }
+
+    .vt-dash-percent {
+        font-size: 1.25rem;
+    }
+
+    .videotrack-player-modal .modal-dialog {
+        width: 100vw;
+        max-width: 100vw;
+        margin: 0;
+    }
+
+    .videotrack-player-modal .modal-content {
+        min-height: 100vh;
+        border-radius: 0;
+    }
+}

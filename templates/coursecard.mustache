@@ -1,0 +1,61 @@
+{{!
+    @template mod_videotrack/coursecard
+
+    Course-page launch card for VideoTrack.
+}}
+<div class="videotrack-coursecard" data-videotrack-card="{{cmid}}" {{#accentstyle}}style="{{accentstyle}}"{{/accentstyle}}>
+    <a href="{{launchurl}}"
+            class="videotrack-card-launch"
+            data-videotrack-launch
+            data-cmid="{{cmid}}"
+            data-url="{{launchurl}}"
+            data-title="{{name}}"
+            data-focus="{{#focusmode}}1{{/focusmode}}{{^focusmode}}0{{/focusmode}}"
+            aria-label="{{launchlabel}}: {{name}}">
+        <span class="videotrack-card-media {{^hasposter}}videotrack-card-media-placeholder{{/hasposter}}"
+              {{#hasposter}}style="background-image: url('{{posterurl}}');"{{/hasposter}}>
+            <span class="videotrack-card-play" aria-hidden="true">
+                <i class="fa fa-play"></i>
+            </span>
+            {{#focusmode}}
+                <span class="videotrack-focus-badge">
+                    <i class="fa fa-eye" aria-hidden="true"></i> {{focuslabel}}
+                </span>
+            {{/focusmode}}
+        </span>
+        <span class="videotrack-card-action">
+            <i class="fa fa-play-circle" aria-hidden="true"></i> {{launchlabel}}
+        </span>
+    </a>
+
+    <div class="videotrack-card-progress-wrap" aria-live="polite">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="small font-weight-bold fw-bold text-muted">{{progresstitle}}</span>
+            <strong class="small font-weight-bold fw-bold" data-videotrack-percent>{{currentpercent}}%</strong>
+        </div>
+        <div class="vt-progress-track vt-progress-track-compact">
+            <div class="vt-progress-fill"
+                 data-videotrack-progressbar
+                 role="progressbar"
+                 style="width: {{currentpercent}}%;"
+                 aria-valuenow="{{currentpercent}}"
+                 aria-valuemin="0"
+                 aria-valuemax="100"></div>
+        </div>
+        <div class="small mt-2">
+            {{#iscompleted}}
+                <span class="text-success font-weight-bold fw-bold" data-videotrack-completed>
+                    <i class="fa fa-check-circle" aria-hidden="true"></i> {{completedtext}}
+                </span>
+            {{/iscompleted}}
+            {{^iscompleted}}
+                <span class="text-muted" data-videotrack-completed>{{completiontext}}</span>
+            {{/iscompleted}}
+        </div>
+    </div>
+</div>
+{{#js}}
+require(['mod_videotrack/coursecard'], function(coursecard) {
+    coursecard.init();
+});
+{{/js}}
