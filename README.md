@@ -1,3 +1,5 @@
+[![Moodle plugin CI](https://github.com/gustavohenrique2102/videotrack/actions/workflows/ci.yml/badge.svg)](https://github.com/gustavohenrique2102/videotrack/actions/workflows/ci.yml)
+
 # VideoTrack (mod_videotrack)
 
 **VideoTrack** is a Moodle 4.5/5.2 activity module that embeds videos and tracks the unique playback intervals watched by each student. Teachers can condition activity completion on a minimum watched percentage.
