@@ -98,4 +98,3 @@ jobs:
         env:
           RESPONSE: ${{ steps.moodle.outputs.response }}
         run: jq . <<< "$RESPONSE"
-

@@ -125,4 +125,3 @@ jobs:
         if: ${{ !cancelled() }}
         continue-on-error: true
         run: moodle-plugin-ci phpmd
-
