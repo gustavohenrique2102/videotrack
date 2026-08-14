@@ -12,7 +12,7 @@
  * @copyright  2026 Yeison Díaz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-/* global M, YT */
+/* global YT */
 define(['jquery', 'core/ajax', 'core/notification'], function($, Ajax, Notification) {
     var youtubeApiPromise = null;
 
@@ -163,7 +163,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, Ajax, Notificat
                         saveProgress();
                     }
                     return null;
-                });
+                }).catch(Notification.exception);
             };
 
             var startHeartbeats = function() {

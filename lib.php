@@ -736,7 +736,7 @@ function videotrack_render_course_card(cm_info $cm): string {
  * @param settings_navigation $settingsnav The settings navigation object.
  * @param navigation_node|null $node The navigation node.
  */
-function videotrack_extend_settings_navigation(settings_navigation $settingsnav, navigation_node $node = null) {
+function videotrack_extend_settings_navigation(settings_navigation $settingsnav, ?navigation_node $node = null) {
     global $PAGE;
     $cm = $PAGE->cm;
 

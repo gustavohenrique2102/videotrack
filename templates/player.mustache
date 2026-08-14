@@ -2,6 +2,39 @@
     @template mod_videotrack/player
 
     VideoTrack player and progress panel.
+
+    Example context (json):
+    {
+        "cmid": 42,
+        "accentstyle": "--vt-accent: #0f6cbf",
+        "completedtext": "Completed",
+        "backtocourseurl": "https://example.com/course/view.php?id=2",
+        "backtocoursetext": "Back to course",
+        "focusmode": true,
+        "preventforward": true,
+        "showresumebutton": true,
+        "sourcewarning": "",
+        "sourceerror": "The video source is unavailable.",
+        "hassource": true,
+        "isyoutube": false,
+        "ytid": "dQw4w9WgXcQ",
+        "videourl": "https://example.com/video.mp4",
+        "videomimetype": "video/mp4",
+        "hascaptions": true,
+        "captionurl": "https://example.com/captions.vtt",
+        "captionlang": "en",
+        "captionlabel": "English",
+        "progresstitle": "Watch progress",
+        "progresshint": "Watch at least 80% of the video.",
+        "currentpercent": 35,
+        "isfree": false,
+        "targetpercent": 80,
+        "targetmarker": "Completion target",
+        "iscompleted": false,
+        "seeklockedmsg": "Forward seeking is locked.",
+        "successmsg": "Completion target reached.",
+        "seekunlockedmsg": "Forward seeking is now available."
+    }
 }}
 <div class="videotrack-theater"
      data-videotrack-theater="{{cmid}}"

@@ -2,6 +2,24 @@
     @template mod_videotrack/coursecard
 
     Course-page launch card for VideoTrack.
+
+    Example context (json):
+    {
+        "cmid": 42,
+        "accentstyle": "--vt-accent: #0f6cbf",
+        "launchurl": "https://example.com/mod/videotrack/view.php?id=42",
+        "name": "Course video",
+        "focusmode": true,
+        "hasposter": true,
+        "posterurl": "https://example.com/poster.jpg",
+        "focuslabel": "Focus mode",
+        "launchlabel": "Watch video",
+        "progresstitle": "Watch progress",
+        "currentpercent": 35,
+        "iscompleted": false,
+        "completedtext": "Completed",
+        "completiontext": "Watch at least 80%"
+    }
 }}
 <div class="videotrack-coursecard" data-videotrack-card="{{cmid}}" {{#accentstyle}}style="{{accentstyle}}"{{/accentstyle}}>
     <a href="{{launchurl}}"

@@ -67,7 +67,7 @@ define(['core/modal', 'core/modal_events'], function(Modal, ModalEvents) {
                 });
             }
 
-            modal.show();
+            return modal.show();
         }).catch(function(err) {
             if (window.console && window.console.error) {
                 window.console.error(err);
