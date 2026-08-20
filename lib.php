@@ -650,7 +650,7 @@ function videotrack_cm_info_view(cm_info $cm) {
  * @return string Rendered HTML.
  */
 function videotrack_render_inline_player(cm_info $cm): string {
-    global $DB, $OUTPUT, $PAGE, $USER, $CFG;
+    global $DB, $OUTPUT, $PAGE, $USER;
 
     $videotrack = $DB->get_record('videotrack', ['id' => $cm->instance], '*', MUST_EXIST);
     $player = videotrack_prepare_player($videotrack, $cm, $cm->context, '', true);
@@ -665,11 +665,6 @@ function videotrack_render_inline_player(cm_info $cm): string {
         'other' => ['instanceid' => $videotrack->id, 'cmid' => $cm->id],
     ]);
     $event->trigger();
-    require_once($CFG->libdir . '/completionlib.php');
-    $completion = new completion_info(get_course($cm->course));
-    if ($completion->is_enabled($cm)) {
-        $completion->set_module_viewed($cm, $USER->id);
-    }
 
     return $OUTPUT->render_from_template('mod_videotrack/player', $player['template']);
 }
